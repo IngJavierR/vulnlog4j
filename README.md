@@ -36,12 +36,12 @@ Dentro del POM excluir el loggin default mediante la siguiente configuración en
 </dependency>
 ```
 ### Prueba sin incidentes
-El aplicativo cuenta con un método GET recibe un parámetro el cual se escribe en log mediante LogManager.
-Para probar ejecutar el siguiente método en algun navegador o herramienta de peticiones REST.  
+El aplicativo cuenta con un método GET que recibe un parámetro el cual se escribe en log mediante LogManager.  
+Para probar, ejecutar el siguiente método en algun navegador o herramienta de peticiones REST.  
 GET  
 http://localhost:8080/vuln&input=HolaMundo
 
-El resultado es la escritura de "HolaMundo dentro del log de forma normal"
+El resultado es la escritura de "HolaMundo" dentro del log de forma normal.
 
 ```
 INFO 86203 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : FrameworkServlet 'dispatcherServlet': initialization started
@@ -63,7 +63,7 @@ URL Encode:
 %24%7Bjndi%3Aldap%3A%2F%2F127.0.0.1%3A3089%2F%7D
 
 Ejecutamos la misma consulta del ejercicio pasado y veremos como se lanza una consulta JNDI en lugar 
-de solo pintar en log  
+de solo pintar en log.  
 GET  
 http://localhost:8080/vuln&input=%24%7Bjndi%3Aldap%3A%2F%2F127.0.0.1%3A3089%2F%7D
 
@@ -71,7 +71,7 @@ http://localhost:8080/vuln&input=%24%7Bjndi%3Aldap%3A%2F%2F127.0.0.1%3A3089%2F%7
 INFO 86256 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : FrameworkServlet 'dispatcherServlet': initialization started
 INFO 86256 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : FrameworkServlet 'dispatcherServlet': initialization completed in 13 ms
 http-nio-8080-exec-1 WARN Error looking up JNDI resource [ldap://127.0.0.1:3089/]. javax.naming.CommunicationException: 127.0.0.1:3089 [Root exception is java.net.ConnectException: Connection refused (Connection refused)]
-	at java.naming/com.sun.jndi.ldap.Connection.<init>(Connection.java:244)
+at java.naming/com.sun.jndi.ldap.Connection.<init>(Connection.java:244)
 ```
 
 ### Corrección de vulnerabilidad
@@ -82,7 +82,7 @@ Basta agregar la siguiente línea de configuración a la JVM.
 ```
 java -jar [app.jar] -Dlog4j2.formatMsgNoLookups=true
 ```
-Nota: se tiene que agregar al momento de invocar la JVM, de nada sirve agregarlo al application.properties.  
+**Nota:** se tiene que agregar al momento de invocar la JVM, de nada sirve agregarlo al application.properties.  
 
 #### Método 2:
 Utilizar la librería propia de Springboot sin la exclusión mencionada al inicio  
@@ -102,7 +102,7 @@ Utilizar la librería propia de Springboot sin la exclusión mencionada al inici
     <version>2.10.0</version>
 </dependency>
 ```  
-Nota: Aunque tengamos la siguiente estructura, sino especificamos la exclusión, no importa que esten especificadas
+**Nota:** Aunque tengamos la siguiente estructura, sino especificamos la exclusión, no importa que esten especificadas
 las dependencias de log4j, Springboot las va a ignorar y no tendremos la vulnerabilidad.  
 
 #### Método 3:
